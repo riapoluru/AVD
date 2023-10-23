@@ -1,0 +1,36 @@
+#copy and paste onto rasp pi interface
+#autonomous with gps module
+#code is originally for a tank robot, will need to figure out how to configure a drone
+import gps
+import math
+
+
+
+gs = gps.gps("localhost", "2947")
+gs.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+for i in range(0,10):     
+   report = gs.next()
+   print (report)
+
+#insert maps api key
+
+#read coordinates
+def coords(pos1, pos2):
+    lat1 = toRadians(pos1["lat"])
+    lon1 = toRadians(pos1["lon"])
+
+    lat2 = toRadians(pos2["lat"])
+    lon2 = toRadians(pos2["lon"])
+
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+#look into calculating bearing distance
+
+def calcDistance(dlon, lat2, lat1, x, y):
+    x = math.sin(dlon) * math.cos(lat2)
+    y = math.cos(lat1) * math.sin(lat2) - math.sin(lat1) *  math.cos(lat2) * math.cos(dlon)
+    return math.atan2(x, y)
+
+
+#credits for source code: https://const-toporov.medium.com/raspberry-pi-robot-with-gps-d6f7a9bc10a6
